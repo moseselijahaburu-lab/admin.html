@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>MOSES CREATIVEHUB | Admin Dashboard</title>
+
+  <style>
+    :root {
+      --bg: #100b10;
+      --panel: #1d141d;
+      --accent: #a51f48;
+      --accent2: #d83c67;
+      --text: #fff7fa;
+      --muted: #c1aeb7;
+      --border: #422533;
+      --green: #6be6a4;
+      --red: #ff7777;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 25px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: #ff7198;
+      font-size: 26px;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .card {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    select {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      color: var(--text);
+      background: #110c11;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input[type="checkbox"] {
+      display: inline-block;
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: normal;
+    }
+
+    button {
+      padding: 12px 17px;
+      margin-top: 15px;
+      color: white;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--accent2);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .secondary {
+      background: #39232e;
+    }
+
+    .danger {
+      background: #822a36;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 7px;
+      overflow-wrap: anywhere;
+    }
+
+    .success {
+      color: var(--green);
+    }
+
+    .error {
+      color: var(--red);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .project {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .project img {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #090609;
+    }
+
+    .project h3 {
+      margin: 0 0 8px;
+      overflow-wrap: anywhere;
+    }
+
+    .project p {
+      margin: 5px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .actions button {
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: #34212b;
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .project {
+        grid-template-columns: 80px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .project img {
+        width: 80px;
+        height: 80px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <header>
+      <h1>MOSES CREATIVEHUB</h1>
+      <p class="muted">Private Portfolio Management Dashboard</p>
+    </header>
+
+    <section id="loginSection" class="card">
+      <h2>Administrator Login</h2>
+      <p class="muted">
+        Sign in with your existing Supabase account.
+      </p>
+
+      <form id="loginForm">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          autocomplete="username"
+          required
+          placeholder="Your administrator email"
+        >
+
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          placeholder="Your password"
+        >
+
+        <button id="loginButton" type="submit">
+          Sign In
+        </button>
+      </form>
+
+      <div id="loginStatus" class="status" role="status"></div>
+    </section>
+
+    <section id="dashboardSection" class="hidden">
+
+      <div class="card">
+        <h2>Dashboard Overview</h2>
+        <p>You are signed in to the dashboard.</p>
+        <button id="logoutButton" class="secondary" type="button">
+          Sign Out
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>Add a Portfolio Project</h2>
+
+        <form id="projectForm">
+          <label for="title">Project title</label>
+          <input
+            id="title"
+            type="text"
+            maxlength="150"
+            required
+            placeholder="Enter project title"
+          >
+
+          <label for="description">Project description</label>
+          <textarea
+            id="description"
+            maxlength="3000"
+            placeholder="Describe your project"
+          ></textarea>
+
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="Graphic Design">Graphic Design</option>
+            <option value="Branding">Branding</option>
+            <option value="Video Editing">Video Editing</option>
+            <option value="Photography">Photography</option>
+            <option value="Web Design">Web Design</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label for="image">Project image</label>
+          <input
+            id="image"
+            type="file"
+            accept="image/*"
+            required
+          >
+
+          <p class="muted">
+            Choose an image from your phone. Maximum size: 8 MB.
+          </p>
+
+          <label class="check-label">
+            <input id="published" type="checkbox" checked>
+            Publish this project on my website
+          </label>
+
+          <button id="uploadButton" type="submit">
+            Upload Project
+          </button>
+        </form>
+
+        <div id="uploadStatus" class="status" role="status"></div>
+      </div>
+
+      <div class="card">
+        <h2>Manage Portfolio Projects</h2>
+        <p class="muted">
+          View, publish, unpublish, or delete projects.
+        </p>
+
+        <button id="refreshButton" class="secondary" type="button">
+          Refresh Projects
+        </button>
+
+        <div id="projectsList" aria-live="polite"></div>
+        <div id="listStatus" class="status" role="status"></div>
+      </div>
+
+    </section>
+
+    <footer class="muted">
+      <p>MOSES CREATIVEHUB &copy; 2026</p>
+    </footer>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    /*
+      STEP 1:
+      Replace the two placeholder values below with your own
+      Supabase Project URL and Publishable/anon public key.
+
+      NEVER put a service_role key or secret key in this file.
+    */
+
+    const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+    const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
+
+    const BUCKET_NAME = "portfolio-images";
+    const TABLE_NAME = "portfolio_items";
+
+    const loginSection = document.getElementById("loginSection");
+    const dashboardSection = document.getElementById("dashboardSection");
+    const loginStatus = document.getElementById("loginStatus");
+    const uploadStatus = document.getElementById("uploadStatus");
+    const listStatus = document.getElementById("listStatus");
+    const projectsList = document.getElementById("projectsList");
+
+    let db = null;
+    let currentUser = null;
+
+    function setStatus(element, message, type = "") {
+      element.textContent = message;
+      element.className = "status " + type;
+    }
+
+    function showLogin() {
+      currentUser = null;
+      loginSection.classList.remove("hidden");
+      dashboardSection.classList.add("hidden");
+    }
+
+    function showDashboard(user) {
+      currentUser = user;
+      loginSection.classList.add("hidden");
+      dashboardSection.classList.remove("hidden");
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function (char) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[char];
+      });
+    }
+
+    function getStoragePath(imageUrl) {
+      try {
+        const url = new URL(imageUrl);
+        const marker = "/object/public/" + BUCKET_NAME + "/";
+        const index = url.pathname.indexOf(marker);
+
+        if (index === -1) return null;
+
+        return decodeURIComponent(
+          url.pathname.slice(index + marker.length)
+        );
+      } catch {
+        return null;
+      }
+    }
+
+    async function loadProjects() {
+      if (!currentUser || !db) return;
+
+      setStatus(listStatus, "Loading projects...");
+      projectsList.replaceChildren();
+
+      const { data, error } = await db
+        .from(TABLE_NAME)
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        setStatus(
+          listStatus,
+          "Could not load projects: " + error.message,
+          "error"
+        );
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        setStatus(listStatus, "No projects found yet.");
+        return;
+      }
+
+      setStatus(listStatus, data.length + " project(s) loaded.");
+
+      data.forEach(function (project) {
+        const card = document.createElement("article");
+        card.className = "project";
+
+        const image = document.createElement("img");
+        image.src = project.image_url || "";
+        image.alt = project.title || "Portfolio image";
+        image.loading = "lazy";
+
+        const details = document.createElement("div");
+
+        details.innerHTML = `
+          <h3>${escapeHTML(project.title)}</h3>
+          <p>${escapeHTML(project.description || "")}</p>
+          <p class="muted">${escapeHTML(project.category || "Other")}</p>
+          <span class="badge">
+            ${project.published ? "Published" : "Unpublished"}
+          </span>
+          <div class="actions">
+            <button
+              type="button"
+              class="toggleButton secondary"
+            >
+              ${project.published ? "Unpublish" : "Publish"}
+            </button>
+            <button
+              type="button"
+              class="deleteButton danger"
+            >
+              Delete
+            </button>
+          </div>
+        `;
+
+        details.querySelector(".toggleButton").addEventListener(
+          "click",
+          function () {
+            togglePublished(project);
+          }
+        );
+
+        details.querySelector(".deleteButton").addEventListener(
+          "click",
+          function () {
+            deleteProject(project);
+          }
+        );
+
+        card.append(image, details);
+        projectsList.appendChild(card);
+      });
+    }
+
+    async function togglePublished(project) {
+      if (!currentUser) return;
+
+      const newValue = !project.published;
+
+      const confirmed = window.confirm(
+        newValue
+          ? "Publish this project?"
+          : "Unpublish this project?"
+      );
+
+      if (!confirmed) return;
+
+      setStatus(listStatus, "Updating project...");
+
+      const { error } = await db
+        .from(TABLE_NAME)
+        .update({ published: newValue })
+        .eq("id", project.id);
+
+      if (error) {
+        setStatus(
+          listStatus,
+          "Update failed: " + error.message,
+          "error"
+        );
+        return;
+      }
+
+      setStatus(listStatus, "Project updated.", "success");
+      await loadProjects();
+    }
+
+    async function deleteProject(project) {
+      if (!currentUser) return;
+
+      const confirmed = window.confirm(
+        'Delete "' + project.title + '"? This cannot be undone.'
+      );
+
+      if (!confirmed) return;
+
+      setStatus(listStatus, "Deleting project...");
+
+      /*
+        Delete the database row first. If that succeeds,
+        attempt to delete the associated image.
+      */
+
+      const { error } = await db
+        .from(TABLE_NAME)
+        .delete()
+        .eq("id", project.id);
+
+      if (error) {
+        setStatus(
+          listStatus,
+          "Delete failed: " + error.message,
+          "error"
+        );
+        return;
+      }
+
+      const storagePath = getStoragePath(project.image_url || "");
+
+      if (storagePath) {
+        const { error: imageError } = await db.storage
+          .from(BUCKET_NAME)
+          .remove([storagePath]);
+
+        if (imageError) {
+          setStatus(
+            listStatus,
+            "Project deleted, but its image could not be deleted: " +
+              imageError.message,
+            "error"
+          );
+          await loadProjects();
+          return;
+        }
+      }
+
+      setStatus(listStatus, "Project deleted.", "success");
+      await loadProjects();
+    }
+
+    document.getElementById("loginForm").addEventListener(
+      "submit",
+      async function (event) {
+        event.preventDefault();
+
+        if (!db) {
+          setStatus(
+            loginStatus,
+            "Supabase is not configured. Add your Project URL and public key in the code.",
+            "error"
+          );
+          return;
+        }
+
+        const button = document.getElementById("loginButton");
+        button.disabled = true;
+        setStatus(loginStatus, "Signing in...");
+
+        try {
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+
+          const { data, error } = await db.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) {
+            setStatus(
+              loginStatus,
+              "Sign-in failed: " + error.message,
+              "error"
+            );
+            return;
+          }
+
+          showDashboard(data.user);
+          setStatus(loginStatus, "");
+          await loadProjects();
+        } finally {
+          button.disabled = false;
+        }
+      }
+    );
+
+    document.getElementById("logoutButton").addEventListener(
+      "click",
+      async function () {
+        if (!db) return;
+
+        await db.auth.signOut();
+        showLogin();
+        setStatus(loginStatus, "You have signed out.");
+      }
+    );
+
+    document.getElementById("refreshButton").addEventListener(
+      "click",
+      loadProjects
+    );
+
+    document.getElementById("projectForm").addEventListener(
+      "submit",
+      async function (event) {
+        event.preventDefault();
+
+        if (!currentUser || !db) {
+          setStatus(uploadStatus, "Please sign in first.", "error");
+          return;
+        }
+
+        const title = document.getElementById("title").value.trim();
+        const description =
+          document.getElementById("description").value.trim();
+        const category = document.getElementById("category").value;
+        const file = document.getElementById("image").files[0];
+        const published = document.getElementById("published").checked;
+
+        if (!title || !file) {
+          setStatus(
+            uploadStatus,
+            "Enter a title and choose an image.",
+            "error"
+          );
+          return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+          setStatus(
+            uploadStatus,
+            "Please select an image file.",
+            "error"
+          );
+          return;
+        }
+
+        if (file.size > 8 * 1024 * 1024) {
+          setStatus(
+            uploadStatus,
+            "The image is larger than 8 MB. Choose a smaller image.",
+            "error"
+          );
+          return;
+        }
+
+        const button = document.getElementById("uploadButton");
+        button.disabled = true;
+
+        let uploadedPath = null;
+
+        try {
+          setStatus(uploadStatus, "Uploading image...");
+
+          const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+          const path =
+            currentUser.id + "/" + Date.now() + "-" + safeName;
+
+          const { error: uploadError } = await db.storage
+            .from(BUCKET_NAME)
+            .upload(path, file, {
+              cacheControl: "3600",
+              upsert: false,
+              contentType: file.type
+            });
+
+          if (uploadError) {
+            setStatus(
+              uploadStatus,
+              "Image upload failed: " + uploadError.message,
+              "error"
+            );
+            return;
+          }
+
+          uploadedPath = path;
+
+          const { data: publicData } = db.storage
+            .from(BUCKET_NAME)
+            .getPublicUrl(path);
+
+          const imageUrl = publicData.publicUrl;
+
+          setStatus(uploadStatus, "Saving project details...");
+
+          const { error: insertError } = await db
+            .from(TABLE_NAME)
+            .insert({
+              title: title,
+              description: description,
+              category: category,
+              image_url: imageUrl,
+              published: published
+            });
+
+          if (insertError) {
+            /*
+              Try to remove the newly uploaded image if the
+              database insert fails.
+            */
+
+            await db.storage
+              .from(BUCKET_NAME)
+              .remove([uploadedPath]);
+
+            setStatus(
+              uploadStatus,
+              "Could not save the project: " + insertError.message,
+              "error"
+            );
+            return;
+          }
+
+          setStatus(
+            uploadStatus,
+            "Project uploaded successfully!",
+            "success"
+          );
+
+          document.getElementById("projectForm").reset();
+          await loadProjects();
+
+        } catch (error) {
+          setStatus(
+            uploadStatus,
+            "Something went wrong: " + error.message,
+            "error"
+          );
+        } finally {
+          button.disabled = false;
+        }
+      }
+    );
+
+    async function initializeDashboard() {
+      if (
+        SUPABASE_URL.includes("https://xelikizkghuexaxenbhx.supabase.co") ||
+        SUPABASE_ANON_KEY.includes("sb_publishable_3Yx2LVrI8vKFCEm7E_OxJQ_yQU9WhfI")
+      ) 
+        setStatus(
+          loginStatus,
+          "Setup required: add your Supabase Project URL and public key inside admin.html.",
+          "error"
+        );
+        return;
+      }
+
+      try {
+        const client = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_ANON_KEY
+        );
+
+        db = client;
+
+        const { data, error } = await db.auth.getSession();
+
+        if (error) {
+          setStatus(loginStatus, error.message, "error");
+          return;
+        }
+
+        if (data.session && data.session.user) {
+          showDashboard(data.session.user);
+          await loadProjects();
+        } else {
+          showLogin();
+        }
+
+        db.auth.onAuthStateChange(function (_event, session) {
+          if (session && session.user) {
+            showDashboard(session.user);
+          } else {
+            showLogin();
+          }
+        });
+
+      } catch (error) {
+        setStatus(
+          loginStatus,
+          "Initialization failed: " + error.message,
+          "error"
+        );
+      }
+    }
+
+    initializeDashboard();
+  </script>
+</body>
+  </html>
