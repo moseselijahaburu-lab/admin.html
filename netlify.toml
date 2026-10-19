@@ -1,0 +1,9 @@
+[build]
+  # Static site: serve files straight from the repository root (no build step).
+  publish = "."
+
+# The repo has no index.html, so serve the admin dashboard at the site root.
+[[redirects]]
+  from = "/"
+  to = "/admin.html"
+  status = 200
